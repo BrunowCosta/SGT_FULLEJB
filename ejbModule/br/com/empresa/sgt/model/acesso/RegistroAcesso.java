@@ -1,6 +1,5 @@
 package br.com.empresa.sgt.model.acesso;
 
-import java.io.Serializable;
 import java.util.Calendar;
 
 import javax.persistence.Column;
@@ -13,11 +12,13 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import br.com.empresa.sgt.model.arq.Modelo;
+
 @Entity
 @Table(name="T_REGISTROACESSO", schema="ACESSO")
 // FIXME Parace que a propriedade shema na nesta anotação está bugada, por isso o "sequenceName" foi adaptado.
 @SequenceGenerator(name="SEQ_ID_REGISTROACESSO", sequenceName="ACESSO.SEQ_ID_REGISTROACESSO", schema="ACESSO", allocationSize=1)
-public class RegistroAcesso implements Serializable {
+public class RegistroAcesso implements Modelo {
 
 	/**
 	 * 

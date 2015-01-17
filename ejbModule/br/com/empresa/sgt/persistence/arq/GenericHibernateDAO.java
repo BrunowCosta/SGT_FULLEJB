@@ -74,15 +74,6 @@ public abstract class GenericHibernateDAO<T, ID extends Serializable> implements
 		return null;
 	}
 	
-//	public T findByFilter(Map<String, String> fields) {
-//		CriteriaQuery cq = this.getManager().getCriteriaBuilder().createQuery();
-//		cq.select(cq.from(entityClass));
-//		cq.where(arg0)
-//		return em.createQuery(cq).getResultList();
-//		
-//		return T;
-//	}
-	
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<T> findAll() {

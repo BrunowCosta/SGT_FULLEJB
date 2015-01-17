@@ -9,7 +9,7 @@ import br.com.empresa.sgt.model.acesso.GrupoPermissao;
 import br.com.empresa.sgt.model.acesso.Usuario;
 
 @Remote
-public interface GrupoPermissaoBusinessRemote extends CrudBusiness{
+public interface GrupoPermissaoBusinessRemote extends CrudBusiness<GrupoPermissao>{
 
 	public List<GrupoPermissao> pesquisar(GrupoPermissao grupo, Usuario usuario) throws BusinessException;
 	

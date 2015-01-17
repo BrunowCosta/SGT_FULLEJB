@@ -1,6 +1,5 @@
 package br.com.empresa.sgt.model.acesso;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,11 +15,12 @@ import javax.persistence.Table;
 
 import br.com.empresa.sgt.enumeration.GrupoPermissaoStatus;
 import br.com.empresa.sgt.enumeration.TipoPermissao;
+import br.com.empresa.sgt.model.arq.Modelo;
 
 @Entity
 @Table(name="T_GRUPOPERMISSAO", schema="ACESSO")
 @SequenceGenerator(name="SEQ_ID_GRUPOPERMISSAO", sequenceName="ACESSO.SEQ_ID_GRUPOPERMISSAO", schema="ACESSO", allocationSize=1)
-public class GrupoPermissao implements Serializable {
+public class GrupoPermissao implements Modelo {
 	
 	/**
 	 * 
@@ -45,19 +45,6 @@ public class GrupoPermissao implements Serializable {
 	private List<Usuario> usuarios;
 	
 	public GrupoPermissao() {}
-	
-	public void init() {
-		if(this.permissoes == null || this.permissoes.isEmpty()) {
-			List<Permissao> permissoes = new ArrayList<Permissao>();
-			for(TipoPermissao tipo : TipoPermissao.values()) {
-				Permissao permissao = new Permissao();
-				permissao.setTipo(tipo.getCodigo());
-				permissao.setTipoPermissao(tipo);
-				permissoes.add(permissao);
-			}
-			this.setPermissoes(permissoes);
-		}
-	}
 	
 	public Integer getId() {
 		return id;

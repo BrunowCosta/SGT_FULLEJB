@@ -1,8 +1,5 @@
 package br.com.empresa.sgt.model.acesso;
 
-import java.io.Serializable;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,11 +13,12 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import br.com.empresa.sgt.enumeration.TipoPermissao;
+import br.com.empresa.sgt.model.arq.Modelo;
 
 @Entity
 @Table(name="T_PERMISSAO", schema="ACESSO")
 @SequenceGenerator(name="SEQ_ID_PERMISSAO", sequenceName="ACESSO.SEQ_ID_PERMISSAO", schema="ACESSO", allocationSize=1)
-public class Permissao implements Serializable {
+public class Permissao implements Modelo {
 	
 	/**
 	 * 

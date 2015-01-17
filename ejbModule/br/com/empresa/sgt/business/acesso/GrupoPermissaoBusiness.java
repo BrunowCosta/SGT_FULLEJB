@@ -14,19 +14,17 @@ import br.com.empresa.sgt.persistence.dao.GrupoPermissaoDAO;
 
 @Stateless
 @Remote(GrupoPermissaoBusinessRemote.class)
-public class GrupoPermissaoBusiness extends CrudBusinessAdapter implements GrupoPermissaoBusinessRemote {
+public class GrupoPermissaoBusiness extends CrudBusinessAdapter<GrupoPermissao> implements GrupoPermissaoBusinessRemote {
 	
 	@EJB GrupoPermissaoDAO grupoPermissaoDAO;
 
 	@Override
 	public void cadastrar(GrupoPermissao grupo, Usuario usuario) throws BusinessException {
-		// TODO Validar Permissao
 		grupoPermissaoDAO.persist(grupo);
 	}
 	
 	@Override
 	public List<GrupoPermissao> pesquisar(GrupoPermissao grupo, Usuario usuario) throws BusinessException {
-		// TODO Validar Permissao
 		return grupoPermissaoDAO.findByExample(grupo);
 	}
 }
