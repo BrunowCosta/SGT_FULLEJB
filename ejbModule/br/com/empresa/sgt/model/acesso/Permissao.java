@@ -2,6 +2,8 @@ package br.com.empresa.sgt.model.acesso;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,9 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
-import br.com.empresa.sgt.enumeration.TipoPermissao;
+import br.com.empresa.sgt.enumeration.EnumMapped;
 import br.com.empresa.sgt.model.arq.Modelo;
 
 @Entity
@@ -30,22 +31,19 @@ public class Permissao implements Modelo {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQ_ID_PERMISSAO")
 	private Integer id;
 	
-	@Column(nullable=false)
-	private Integer valor;
+	@Enumerated(EnumType.ORDINAL)
+	private PermissaoValorEnum valor;
 	
-	@Column(nullable=false)
-	private Integer tipo;
+	@Enumerated(EnumType.ORDINAL)
+	private PermissaoTipoEnum tipo;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="FK_GRUPOPERMISSAO")
 	private GrupoPermissao grupoPermissao;
 	
-	@Transient
-	private TipoPermissao tipoPermissao;
-	
 	public Permissao() {}
 	
-	public Permissao(Integer tipo) {
+	public Permissao(PermissaoTipoEnum tipo) {
 		this.tipo = tipo;
 	}
 
@@ -57,19 +55,19 @@ public class Permissao implements Modelo {
 		this.id = id;
 	}
 
-	public Integer getValor() {
+	public PermissaoValorEnum getValor() {
 		return valor;
 	}
 
-	public void setValor(Integer valor) {
+	public void setValor(PermissaoValorEnum valor) {
 		this.valor = valor;
 	}
 
-	public Integer getTipo() {
+	public PermissaoTipoEnum getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(Integer tipo) {
+	public void setTipo(PermissaoTipoEnum tipo) {
 		this.tipo = tipo;
 	}
 
@@ -80,13 +78,48 @@ public class Permissao implements Modelo {
 	public void setGrupoPermissao(GrupoPermissao grupoPermissao) {
 		this.grupoPermissao = grupoPermissao;
 	}
+	
+	public enum PermissaoValorEnum implements EnumMapped{
+		NENHUMA("permissao.valor.nenhuma"),
+		VISUALIZAR("permissao.valor.visualizar"),
+		ALTERAR("permissao.valor.alterar");
+		
+		private String descricao;
+		
+		PermissaoValorEnum(String descricao) {
+			this.descricao = descricao;
+		}
 
-	public TipoPermissao getTipoPermissao() {
-		return tipoPermissao;
-	}
+		public String getDescricao() {
+			return descricao;
+		}
 
-	public void setTipoPermissao(TipoPermissao tipoPermissao) {
-		this.tipoPermissao = tipoPermissao;
+		public void setDescricao(String descricao) {
+			this.descricao = descricao;
+		}
+		
 	}
 	
+	public enum PermissaoTipoEnum implements EnumMapped{
+		CONTROLE_ACESSO("permissao.controleAcesso"),
+		CONTROLE_TRIBUTARIO_IPTU("permissao.controleTributario.iptu"),
+		CONTROLE_TRIBUTARIO_ITBI("permissao.controleTributario.itbi"),
+		CONTROLE_TRIBUTARIO_ISS("permissao.controleTributario.iss");
+		
+		private String descricao;
+		
+		PermissaoTipoEnum(String descricao) {
+			this.descricao = descricao;
+		}
+
+		public String getDescricao() {
+			return descricao;
+		}
+
+		public void setDescricao(String descricao) {
+			this.descricao = descricao;
+		}
+		
+	}
+
 } 

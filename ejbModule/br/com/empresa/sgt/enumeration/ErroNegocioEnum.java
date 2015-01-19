@@ -1,26 +1,24 @@
 package br.com.empresa.sgt.enumeration;
 
-public enum TipoPermissao implements EnumMapped {
+public enum ErroNegocioEnum implements EnumMapped {
 	
-	ControleAcesso(1, "permissao.controleAcesso"),
-	ControleTributarioIPTU(2, "permissao.controleTributario.iptu"),
-	ControleTributarioITBI(3, "permissao.controleTributario.itbi"),
-	ControleTributarioISS(4, "permissao.controleTributario.iss");
+	ERRO_FUNCAO_NAO_IMPLEMENTADA(100,"erro.sistema.funcaoNaoImplementada"),
+	ERRO_GENERICO(101,"erro.sistema.generico"),
+	ERRO_LOGIN_BLOQUEADO(300, "erro.login.impedido"),
+	ERRO_LOGIN_INVALIDO(301, "erro.login.invalido");
 	
 	private Integer codigo;
 	private String descricao;
 	
-	TipoPermissao(Integer codigo, String descricao) {
+	ErroNegocioEnum(Integer codigo, String descricao) {
 		this.codigo = codigo;
 		this.descricao = descricao;
 	}
 
-	@Override
 	public Integer getCodigo() {
 		return codigo;
 	}
 
-	@Override
 	public void setCodigo(Integer codigo) {
 		this.codigo = codigo;
 	}

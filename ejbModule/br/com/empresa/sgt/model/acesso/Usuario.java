@@ -4,6 +4,8 @@ import java.util.Calendar;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,6 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import br.com.empresa.sgt.enumeration.EnumMapped;
 import br.com.empresa.sgt.model.arq.Modelo;
 
 @Entity
@@ -42,8 +45,8 @@ public class Usuario implements Modelo {
 	@Column(nullable=false, length=32)
 	private String senha;
 	
-	@Column(nullable=false)
-	private int status;
+	@Enumerated(EnumType.ORDINAL)
+	private UsuarioStatusEnum status;
 	
 	// Dados Pessoais
 	@Column(nullable=false, length=50)
@@ -141,11 +144,11 @@ public class Usuario implements Modelo {
 		this.saltAgent = saltAgent;
 	}
 
-	public int getStatus() {
+	public UsuarioStatusEnum getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(UsuarioStatusEnum status) {
 		this.status = status;
 	}
 
@@ -307,6 +310,29 @@ public class Usuario implements Modelo {
 
 	public void setGrupoPermissao(GrupoPermissao grupoPermissao) {
 		this.grupoPermissao = grupoPermissao;
+	}
+	
+	public enum UsuarioStatusEnum implements EnumMapped{
+		INATIVO("usuario.status.ativo"),
+		ATIVO("usuario.status.inativo"),
+		CANCELADO("usuario.status.cancelado"),
+		BLOQUEADO("usuario.status.bloqueado"),
+		EXPIRADO("usuario.status.expirado");
+		
+		private String descricao;
+		
+		UsuarioStatusEnum(String descricao) {
+			this.descricao = descricao;
+		}
+
+		public String getDescricao() {
+			return descricao;
+		}
+
+		public void setDescricao(String descricao) {
+			this.descricao = descricao;
+		}
+		
 	}
 	
 } 

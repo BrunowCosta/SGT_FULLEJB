@@ -14,10 +14,13 @@ import javax.persistence.criteria.CriteriaQuery;
 
 import org.hibernate.Session;
 import org.hibernate.criterion.Example;
+import org.hibernate.criterion.MatchMode;
+
+import br.com.empresa.sgt.model.arq.Modelo;
 
 
 // Adapter Pattern
-public abstract class GenericHibernateDAO<T, ID extends Serializable> implements GenericDao <T, ID> {
+public abstract class GenericHibernateDAO<T extends Modelo, ID extends Serializable> implements GenericDao <T, ID> {
 
 //	private EntityManagerFactory managerFactory = Persistence.createEntityManagerFactory("SGTDB");
 	
@@ -108,8 +111,8 @@ public abstract class GenericHibernateDAO<T, ID extends Serializable> implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<T> findByExample(T exampleEntity) {
-	    Example example = Example.create(exampleEntity).excludeZeroes().enableLike();
-	    return this.getSession().createCriteria(this.getClass()).add(example).list();
+	    Example example = Example.create(exampleEntity).excludeZeroes().enableLike(MatchMode.ANYWHERE);
+	    return this.getSession().createCriteria(this.getEntityClass()).add(example).list();
 	}
 	
 	@SuppressWarnings("unchecked")

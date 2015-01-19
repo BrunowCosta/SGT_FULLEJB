@@ -4,6 +4,8 @@ import java.util.Calendar;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,6 +14,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import br.com.empresa.sgt.enumeration.EnumMapped;
 import br.com.empresa.sgt.model.arq.Modelo;
 
 @Entity
@@ -24,10 +27,6 @@ public class RegistroAcesso implements Modelo {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	public final static String TIPO_NEGADO = "D";
-	public final static String TIPO_SUCESSO = "S";
-	public final static String TIPO_BLOQUEADO = "B";
 	
 	@Id
 	@Column(name="IDREGISTROACESSO")
@@ -49,8 +48,8 @@ public class RegistroAcesso implements Modelo {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar dataAcesso;
 	
-	@Column(nullable=false)
-	private String tipo;
+	@Enumerated(EnumType.ORDINAL)
+	private RegistroAcessoTipoEnum tipo;
 	
 	public RegistroAcesso() {}
 	
@@ -102,11 +101,11 @@ public class RegistroAcesso implements Modelo {
 		this.dataAcesso = dataAcesso;
 	}
 
-	public String getTipo() {
+	public RegistroAcessoTipoEnum getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(String tipo) {
+	public void setTipo(RegistroAcessoTipoEnum tipo) {
 		this.tipo = tipo;
 	}
 
@@ -132,6 +131,27 @@ public class RegistroAcesso implements Modelo {
 
 	public void setDispositivo(String dispositivo) {
 		this.dispositivo = dispositivo;
+	}
+	
+	public enum RegistroAcessoTipoEnum implements EnumMapped{
+		negado("registroAcesso.tipo.negado"),
+		sucesso("registroAcesso.tipo.sucesso"),
+		bloqueado("registroAcesso.tipo.bloqueado");
+		
+		private String descricao;
+		
+		RegistroAcessoTipoEnum(String descricao) {
+			this.descricao = descricao;
+		}
+
+		public String getDescricao() {
+			return descricao;
+		}
+
+		public void setDescricao(String descricao) {
+			this.descricao = descricao;
+		}
+		
 	}
 	
 }

@@ -4,8 +4,9 @@ import java.util.List;
 
 import br.com.empresa.sgt.exception.BusinessException;
 import br.com.empresa.sgt.model.acesso.Usuario;
+import br.com.empresa.sgt.model.arq.Modelo;
 
-public interface CrudBusiness<T> {
+public interface CrudBusiness<T extends Modelo> {
 	
 	public void cadastrar(T obj, Usuario usuario) throws BusinessException;
 	

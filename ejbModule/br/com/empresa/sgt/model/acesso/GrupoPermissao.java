@@ -1,11 +1,12 @@
 package br.com.empresa.sgt.model.acesso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,8 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import br.com.empresa.sgt.enumeration.GrupoPermissaoStatus;
-import br.com.empresa.sgt.enumeration.TipoPermissao;
+import br.com.empresa.sgt.enumeration.EnumMapped;
 import br.com.empresa.sgt.model.arq.Modelo;
 
 @Entity
@@ -35,9 +35,9 @@ public class GrupoPermissao implements Modelo {
 	@Column(nullable=false)
 	private String descricao;
 	
-	@Column
-	private int status;
-
+	@Enumerated(EnumType.ORDINAL)
+	private GrupoPermissaoStatusEnum status;
+	
 	@OneToMany(cascade=CascadeType.ALL)
 	private List<Permissao> permissoes;
 	
@@ -62,11 +62,11 @@ public class GrupoPermissao implements Modelo {
 		this.descricao = descricao;
 	}
 
-	public int getStatus() {
+	public GrupoPermissaoStatusEnum getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(GrupoPermissaoStatusEnum status) {
 		this.status = status;
 	}
 
@@ -86,14 +86,24 @@ public class GrupoPermissao implements Modelo {
 		this.usuarios = usuarios;
 	}
 	
-	public String getStatusDescricao(){
-		String descricao = "generico.outro";
-		for(GrupoPermissaoStatus status : GrupoPermissaoStatus.values()) {
-			if(status.getCodigo() == this.getStatus()) {
-				status.getDescricao();
-			}
+	public enum GrupoPermissaoStatusEnum implements EnumMapped{
+		ATIVO("grupoPermissao.status.ativo"),
+		INATIVO("grupoPermissao.status.inativo");
+		
+		private String descricao;
+		
+		GrupoPermissaoStatusEnum(String descricao) {
+			this.descricao = descricao;
 		}
-		return descricao;
+
+		public String getDescricao() {
+			return descricao;
+		}
+
+		public void setDescricao(String descricao) {
+			this.descricao = descricao;
+		}
+		
 	}
 	
 } 

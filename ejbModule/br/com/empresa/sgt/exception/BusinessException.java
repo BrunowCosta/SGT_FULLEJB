@@ -1,42 +1,44 @@
 package br.com.empresa.sgt.exception;
 
+import br.com.empresa.sgt.enumeration.EnumMapped;
+import br.com.empresa.sgt.enumeration.ErroNegocioEnum;
 
 @SuppressWarnings("serial")
 public class BusinessException extends Exception{
 	
-	public static final String SEVERITY_ERROR = "E";
-	public static final String SEVERITY_INFO = "I";
-	public static final String SEVERITY_FATAL = "F";
-	public static final String SEVERITY_WARNNING = "W";
-	
-	private String severity;
-	private String prefixo;
+	private ErroNegocioEnum erro;
+	private ErroNegocioServidadeEnum severidade;
+	private ErroNegocioPrefixoEnum prefixo;
 	private Exception excecaoAnterior;
 	
-	public BusinessException(String message) {
-		super(message);
+	public BusinessException(String menssagem) {
+		super(menssagem);
 	}
 	
-	public BusinessException(String message, String prefixo, String severity, Exception excecaoAnterior) {
-		super(message);
+	public BusinessException(String menssagem, ErroNegocioEnum erro, 
+							 ErroNegocioPrefixoEnum prefixo, ErroNegocioServidadeEnum severidade, 
+							 Exception excecaoAnterior) {
+		
+		super(menssagem);
+		this.erro = erro;
 		this.prefixo = prefixo;
-		this.severity = severity;
+		this.severidade = severidade;
 		this.excecaoAnterior = excecaoAnterior;
 	}
 	
-	public String getSeverity() {
-		return severity;
+	public ErroNegocioServidadeEnum getSeveridade() {
+		return severidade;
 	}
 
-	public void setSeverity(String severity) {
-		this.severity = severity;
+	public void setSeveridade(ErroNegocioServidadeEnum severidade) {
+		this.severidade = severidade;
 	}
 
-	public String getPrefixo() {
+	public ErroNegocioPrefixoEnum getPrefixo() {
 		return prefixo;
 	}
 
-	public void setPrefixo(String prefixo) {
+	public void setPrefixo(ErroNegocioPrefixoEnum prefixo) {
 		this.prefixo = prefixo;
 	}
 
@@ -46,6 +48,41 @@ public class BusinessException extends Exception{
 
 	public void setExcecaoAnterior(Exception excecaoAnterior) {
 		this.excecaoAnterior = excecaoAnterior;
+	}
+	
+	public ErroNegocioEnum getErro() {
+		return erro;
+	}
+
+	public void setErro(ErroNegocioEnum erro) {
+		this.erro = erro;
+	}
+
+	public enum ErroNegocioServidadeEnum {
+		ERRO, INFO, FATAL, AVISO;
+		
+		ErroNegocioServidadeEnum() {}
+
+	}
+	
+	public enum ErroNegocioPrefixoEnum implements EnumMapped {
+		GENERICO("erroPrefixo.generico"),
+		LOGICO("erroPrefixo.logico");
+		
+		private String descricao;
+		
+		ErroNegocioPrefixoEnum(String descricao) {
+			this.descricao = descricao;
+		}
+
+		public String getDescricao() {
+			return descricao;
+		}
+
+		public void setDescricao(String descricao) {
+			this.descricao = descricao;
+		}
+		
 	}
 	
 }

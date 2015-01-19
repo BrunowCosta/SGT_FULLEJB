@@ -10,11 +10,14 @@ import org.owasp.esapi.errors.EncryptionException;
 import org.owasp.esapi.reference.crypto.JavaEncryptor;
 
 import br.com.empresa.sgt.business.remote.UsuarioBusinessRemote;
-import br.com.empresa.sgt.enumeration.TipoErroNegocio;
-import br.com.empresa.sgt.enumeration.UsuarioStatus;
+import br.com.empresa.sgt.enumeration.ErroNegocioEnum;
 import br.com.empresa.sgt.exception.BusinessException;
+import br.com.empresa.sgt.exception.BusinessException.ErroNegocioPrefixoEnum;
+import br.com.empresa.sgt.exception.BusinessException.ErroNegocioServidadeEnum;
 import br.com.empresa.sgt.model.acesso.RegistroAcesso;
+import br.com.empresa.sgt.model.acesso.RegistroAcesso.RegistroAcessoTipoEnum;
 import br.com.empresa.sgt.model.acesso.Usuario;
+import br.com.empresa.sgt.model.acesso.Usuario.UsuarioStatusEnum;
 import br.com.empresa.sgt.persistence.arq.GenericDao;
 import br.com.empresa.sgt.persistence.dao.RegistroAcessoDAO;
 import br.com.empresa.sgt.persistence.dao.UsuarioDAO;
@@ -38,28 +41,29 @@ public class UsuarioBusiness implements UsuarioBusinessRemote {
 		if(usuario != null) { 
 			// Caso a autenticação esteja correta
 			if(this.aplicaHash(senha, usuario.getSaltAgent()).equals(usuario.getSenha())) {
-				if(usuario.getStatus() == UsuarioStatus.ativo.getCodigo()) {
-					registro.setTipo(RegistroAcesso.TIPO_SUCESSO);
+				if(usuario.getStatus() == UsuarioStatusEnum.ATIVO) {
+					registro.setTipo(RegistroAcessoTipoEnum.sucesso);
 					registroAcessoDAO.persist(registro);
 					return usuario;
 				} else {
 					// Usuario com status invalido/bloqueado
-					registro.setTipo(RegistroAcesso.TIPO_BLOQUEADO);
+					registro.setTipo(RegistroAcessoTipoEnum.bloqueado);
 					registroAcessoDAO.persist(registro);
-					throw new BusinessException(TipoErroNegocio.loginBLoqueado.getDescricao() + 
-												UsuarioStatus.ativo.getDescricao() + ".", 
-												TipoErroNegocio.prefixoErroLogico.getDescricao(), 
-												BusinessException.SEVERITY_ERROR, null);
+					throw new BusinessException(ErroNegocioEnum.ERRO_LOGIN_BLOQUEADO.getDescricao() + usuario.getStatus(),
+												ErroNegocioEnum.ERRO_LOGIN_BLOQUEADO,
+												ErroNegocioPrefixoEnum.LOGICO, 
+												ErroNegocioServidadeEnum.ERRO, null);
 				}
 			}
 		} 
 		
-		registro.setTipo(RegistroAcesso.TIPO_NEGADO);
+		registro.setTipo(RegistroAcessoTipoEnum.negado);
 		registroAcessoDAO.persist(registro);
 		// Login ou senha invalidos
-		throw new BusinessException(TipoErroNegocio.loginInvalido.getDescricao(), 
-									TipoErroNegocio.prefixoErroLogico.getDescricao(), 
-									BusinessException.SEVERITY_ERROR, null);
+		throw new BusinessException(ErroNegocioEnum.ERRO_LOGIN_INVALIDO.getDescricao(),
+									ErroNegocioEnum.ERRO_LOGIN_INVALIDO,
+									ErroNegocioPrefixoEnum.LOGICO, 
+									ErroNegocioServidadeEnum.ERRO, null);
 	}
 	
 	// TODO retirar isso daqui.
