@@ -1,5 +1,7 @@
 package br.com.empresa.sgt.business.acesso;
 
+import java.util.List;
+
 import br.com.empresa.sgt.business.remote.CrudBusiness;
 import br.com.empresa.sgt.enumeration.ErroNegocioEnum;
 import br.com.empresa.sgt.exception.BusinessException;
@@ -27,7 +29,7 @@ public abstract class CrudBusinessAdapter<T extends Modelo> implements CrudBusin
 	}
 
 	@Override
-	public T visualizar(Integer id) throws BusinessException {
+	public T encontrar(Integer id) throws BusinessException {
 		throw new BusinessException(ErroNegocioEnum.ERRO_FUNCAO_NAO_IMPLEMENTADA.getDescricao(),
 									ErroNegocioEnum.ERRO_FUNCAO_NAO_IMPLEMENTADA,
 									ErroNegocioPrefixoEnum.GENERICO, 
@@ -35,7 +37,7 @@ public abstract class CrudBusinessAdapter<T extends Modelo> implements CrudBusin
 	}
 	
 	@Override
-	public void remover(T modelo, Usuario usuario) throws BusinessException {
+	public void remover(Integer id, Usuario usuario) throws BusinessException {
 		throw new BusinessException(ErroNegocioEnum.ERRO_FUNCAO_NAO_IMPLEMENTADA.getDescricao(),
 									ErroNegocioEnum.ERRO_FUNCAO_NAO_IMPLEMENTADA,
 									ErroNegocioPrefixoEnum.GENERICO, 
@@ -43,18 +45,19 @@ public abstract class CrudBusinessAdapter<T extends Modelo> implements CrudBusin
 	}
 	
 	@Override
-	public void ativar(T modelo, Usuario usuario) throws BusinessException {
+	public void ativarInativar(Integer id, boolean ativo, Usuario usuario) throws BusinessException {
+		throw new BusinessException(ErroNegocioEnum.ERRO_FUNCAO_NAO_IMPLEMENTADA.getDescricao(),
+									ErroNegocioEnum.ERRO_FUNCAO_NAO_IMPLEMENTADA,
+									ErroNegocioPrefixoEnum.GENERICO, 
+									ErroNegocioServidadeEnum.FATAL, null);
+	}
+	
+	@Override
+	public List<T> pesquisar(T obj) throws BusinessException {
 		throw new BusinessException(ErroNegocioEnum.ERRO_FUNCAO_NAO_IMPLEMENTADA.getDescricao(),
 									ErroNegocioEnum.ERRO_FUNCAO_NAO_IMPLEMENTADA,
 									ErroNegocioPrefixoEnum.GENERICO, 
 									ErroNegocioServidadeEnum.FATAL, null);
 	}
 
-	@Override
-	public void inativar(T modelo, Usuario usuario) throws BusinessException {
-		throw new BusinessException(ErroNegocioEnum.ERRO_FUNCAO_NAO_IMPLEMENTADA.getDescricao(),
-									ErroNegocioEnum.ERRO_FUNCAO_NAO_IMPLEMENTADA, 
-									ErroNegocioPrefixoEnum.GENERICO, 
-									ErroNegocioServidadeEnum.FATAL, null);
-	}
 }

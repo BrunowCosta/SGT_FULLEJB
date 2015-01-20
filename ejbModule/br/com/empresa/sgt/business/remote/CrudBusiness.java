@@ -12,14 +12,12 @@ public interface CrudBusiness<T extends Modelo> {
 	
 	public void alterar(T obj, Usuario usuario) throws BusinessException;
 	
-	public T visualizar(Integer id) throws BusinessException;
+	public T encontrar(Integer id) throws BusinessException;
 	
-	public void remover(T obj, Usuario usuario) throws BusinessException;
+	public void remover(Integer id, Usuario usuario) throws BusinessException;
 	
-	public void ativar(T obj, Usuario usuario) throws BusinessException;
+	public void ativarInativar(Integer id, boolean ativo, Usuario usuario) throws BusinessException;
 	
-	public void inativar(T	 obj, Usuario usuario) throws BusinessException;
-	
-	public List<T> pesquisar(T	 obj, Usuario usuario) throws BusinessException;
+	public List<T> pesquisar(T obj) throws BusinessException;
 	
 }
