@@ -7,10 +7,7 @@ import javax.ejb.Remote;
 import javax.ejb.Stateless;
 
 import br.com.empresa.sgt.business.remote.GrupoPermissaoBusinessRemote;
-import br.com.empresa.sgt.enumeration.ErroNegocioEnum;
 import br.com.empresa.sgt.exception.BusinessException;
-import br.com.empresa.sgt.exception.BusinessException.ErroNegocioPrefixoEnum;
-import br.com.empresa.sgt.exception.BusinessException.ErroNegocioServidadeEnum;
 import br.com.empresa.sgt.model.acesso.GrupoPermissao;
 import br.com.empresa.sgt.model.acesso.Usuario;
 import br.com.empresa.sgt.persistence.dao.GrupoPermissaoDAO;
@@ -29,6 +26,16 @@ public class GrupoPermissaoBusiness extends CrudBusinessAdapter<GrupoPermissao> 
 	@Override
 	public List<GrupoPermissao> pesquisar(GrupoPermissao grupo) throws BusinessException {
 		return grupoPermissaoDAO.findByExample(grupo);
+	}
+	
+	@Override
+	public GrupoPermissao encontrar(Integer id) throws BusinessException {
+		return grupoPermissaoDAO.findById(id);
+	}
+	
+	@Override
+	public void alterar(GrupoPermissao modelo, Usuario usuario) throws BusinessException {
+		grupoPermissaoDAO.merge(modelo);
 	}
 
 }
