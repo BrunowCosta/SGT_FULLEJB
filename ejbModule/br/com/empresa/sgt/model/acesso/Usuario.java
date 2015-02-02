@@ -1,6 +1,6 @@
 package br.com.empresa.sgt.model.acesso;
 
-import java.util.Calendar;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,7 +16,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import br.com.empresa.sgt.enumeration.EnumMapped;
+import org.hibernate.validator.constraints.br.CPF;
+
+import br.com.empresa.sgt.enumeration.MappedEnum;
 import br.com.empresa.sgt.model.arq.Modelo;
 
 @Entity
@@ -58,16 +60,17 @@ public class Usuario implements Modelo {
 	@Column(nullable=false, length=30)
 	private String email;
 	
+	@CPF
 	@Column(nullable=false, length=11)
 	private String cpf;
 	
 	@Column(nullable=false)
 	private String registroGeral;
 	
-	private String orgaoExpeditor;
+	private String orgaoExpedidor;
 	
 	@Temporal(TemporalType.DATE)
-	private Calendar dataNascimento;
+	private Date dataNascimento;
 	
 	private String telefonePrincipal;
 	
@@ -98,10 +101,6 @@ public class Usuario implements Modelo {
 	
 	@Column(nullable=false)
 	private String pais;
-	
-	// TODO Ver se vai usar isso aqui.
-	@Temporal(TemporalType.TIMESTAMP)
-	private Calendar dataBloqueio;
 	
 	@ManyToOne
 	private GrupoPermissao grupoPermissao;
@@ -184,12 +183,12 @@ public class Usuario implements Modelo {
 		this.registroGeral = registroGeral;
 	}
 
-	public String getOrgaoExpeditor() {
-		return orgaoExpeditor;
+	public String getOrgaoExpedidor() {
+		return orgaoExpedidor;
 	}
 
-	public void setOrgaoExpeditor(String orgaoExpeditor) {
-		this.orgaoExpeditor = orgaoExpeditor;
+	public void setOrgaoExpedidor(String orgaoExpeditor) {
+		this.orgaoExpedidor = orgaoExpeditor;
 	}
 	
 	public String getCpf() {
@@ -200,11 +199,11 @@ public class Usuario implements Modelo {
 		this.cpf = cpf;
 	}
 
-	public Calendar getDataNascimento() {
+	public Date getDataNascimento() {
 		return dataNascimento;
 	}
 
-	public void setDataNascimento(Calendar dataNascimento) {
+	public void setDataNascimento(Date dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 
@@ -230,14 +229,6 @@ public class Usuario implements Modelo {
 
 	public void setSexo(char sexo) {
 		this.sexo = sexo;
-	}
-
-	public Calendar getDataBloqueio() {
-		return dataBloqueio;
-	}
-
-	public void setDataBloqueio(Calendar dataBloqueio) {
-		this.dataBloqueio = dataBloqueio;
 	}
 
 	public String getUrlFotoPerfil() {
@@ -312,7 +303,7 @@ public class Usuario implements Modelo {
 		this.grupoPermissao = grupoPermissao;
 	}
 	
-	public enum UsuarioStatusEnum implements EnumMapped{
+	public enum UsuarioStatusEnum implements MappedEnum{
 		INATIVO("usuario.status.ativo"),
 		ATIVO("usuario.status.inativo"),
 		CANCELADO("usuario.status.cancelado"),

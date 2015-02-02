@@ -12,10 +12,15 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
 
+import br.com.empresa.sgt.enumeration.MensagemEnum;
+import br.com.empresa.sgt.exception.BusinessException;
+import br.com.empresa.sgt.exception.BusinessException.ErroNegocioServidadeEnum;
 import br.com.empresa.sgt.model.arq.Modelo;
 
 
@@ -35,18 +40,20 @@ public abstract class GenericHibernateDAO<T extends Modelo, ID extends Serializa
 	}
 
 	@Override
-	public void persist(T obj) {
+	public void persist(T obj) throws BusinessException {
 		getManager().persist(obj);
 		getManager().flush();
 	}
 
 	@Override
-	public void remove(T obj) {
+	public void remove(T obj) throws BusinessException {
+		this.validaAlteracaoRegistroPadrao(obj);
 		getManager().remove(obj);
 	}
 
 	@Override
-	public T merge(T obj) {
+	public T merge(T obj) throws BusinessException {
+		this.validaAlteracaoRegistroPadrao(obj);
 		obj = this.getManager().merge(obj);
 		return obj;
 	}
@@ -111,8 +118,11 @@ public abstract class GenericHibernateDAO<T extends Modelo, ID extends Serializa
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<T> findByExample(T exampleEntity) {
-	    Example example = Example.create(exampleEntity).excludeZeroes().enableLike(MatchMode.ANYWHERE);
-	    return this.getSession().createCriteria(this.getEntityClass()).add(example).list();
+	    Example example = Example.create(exampleEntity).excludeZeroes().enableLike(MatchMode.ANYWHERE).ignoreCase();
+	    Criteria criteria = this.getSession().createCriteria(this.getEntityClass()).add(example);
+	    //Agrupa pela entidade pai caso seja feita algum leftjoin na consulta.
+	    criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+	    return criteria.list();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -198,6 +208,12 @@ public abstract class GenericHibernateDAO<T extends Modelo, ID extends Serializa
 
 	private void setEntityClass(Class<T> entityClass) {
 		this.entityClass = entityClass;
+	}
+	
+	private void validaAlteracaoRegistroPadrao(T objeto) throws BusinessException {
+		if(objeto.getId() != null && objeto.getId() < 0) {
+			throw new BusinessException(ErroNegocioServidadeEnum.ERRO, null, MensagemEnum.ERRO_ALTERACAO_REGISTRO_PADRAO);
+		}
 	}
 
 }

@@ -1,29 +1,28 @@
 package br.com.empresa.sgt.exception;
 
-import br.com.empresa.sgt.enumeration.EnumMapped;
-import br.com.empresa.sgt.enumeration.ErroNegocioEnum;
+import br.com.empresa.sgt.enumeration.MensagemEnum;
 
 @SuppressWarnings("serial")
 public class BusinessException extends Exception{
 	
-	private ErroNegocioEnum erro;
+	private MensagemEnum erro;
 	private ErroNegocioServidadeEnum severidade;
-	private ErroNegocioPrefixoEnum prefixo;
 	private Exception excecaoAnterior;
+	private Object[] parametros;
 	
 	public BusinessException(String menssagem) {
 		super(menssagem);
 	}
 	
-	public BusinessException(String menssagem, ErroNegocioEnum erro, 
-							 ErroNegocioPrefixoEnum prefixo, ErroNegocioServidadeEnum severidade, 
-							 Exception excecaoAnterior) {
+	public BusinessException(ErroNegocioServidadeEnum severidade, 
+							 Exception excecaoAnterior,
+							 MensagemEnum erro,
+							 Object... params) {
 		
-		super(menssagem);
 		this.erro = erro;
-		this.prefixo = prefixo;
 		this.severidade = severidade;
 		this.excecaoAnterior = excecaoAnterior;
+		this.parametros = params;
 	}
 	
 	public ErroNegocioServidadeEnum getSeveridade() {
@@ -34,14 +33,6 @@ public class BusinessException extends Exception{
 		this.severidade = severidade;
 	}
 
-	public ErroNegocioPrefixoEnum getPrefixo() {
-		return prefixo;
-	}
-
-	public void setPrefixo(ErroNegocioPrefixoEnum prefixo) {
-		this.prefixo = prefixo;
-	}
-
 	public Exception getExcecaoAnterior() {
 		return excecaoAnterior;
 	}
@@ -50,12 +41,20 @@ public class BusinessException extends Exception{
 		this.excecaoAnterior = excecaoAnterior;
 	}
 	
-	public ErroNegocioEnum getErro() {
+	public MensagemEnum getErro() {
 		return erro;
 	}
 
-	public void setErro(ErroNegocioEnum erro) {
+	public void setErro(MensagemEnum erro) {
 		this.erro = erro;
+	}
+	
+	public Object[] getParametros() {
+		return parametros;
+	}
+
+	public void setParametros(Object[] parametros) {
+		this.parametros = parametros;
 	}
 
 	public enum ErroNegocioServidadeEnum {
@@ -63,26 +62,6 @@ public class BusinessException extends Exception{
 		
 		ErroNegocioServidadeEnum() {}
 
-	}
-	
-	public enum ErroNegocioPrefixoEnum implements EnumMapped {
-		GENERICO("erroPrefixo.generico"),
-		LOGICO("erroPrefixo.logico");
-		
-		private String descricao;
-		
-		ErroNegocioPrefixoEnum(String descricao) {
-			this.descricao = descricao;
-		}
-
-		public String getDescricao() {
-			return descricao;
-		}
-
-		public void setDescricao(String descricao) {
-			this.descricao = descricao;
-		}
-		
 	}
 	
 }

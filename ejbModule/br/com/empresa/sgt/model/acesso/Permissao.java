@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import br.com.empresa.sgt.enumeration.EnumMapped;
+import br.com.empresa.sgt.enumeration.MappedEnum;
 import br.com.empresa.sgt.model.arq.Modelo;
 
 @Entity
@@ -79,7 +79,7 @@ public class Permissao implements Modelo {
 		this.grupoPermissao = grupoPermissao;
 	}
 	
-	public enum PermissaoValorEnum implements EnumMapped{
+	public enum PermissaoValorEnum implements MappedEnum{
 		NENHUMA("permissao.valor.nenhuma"),
 		VISUALIZAR("permissao.valor.visualizar"),
 		ALTERAR("permissao.valor.alterar");
@@ -100,7 +100,7 @@ public class Permissao implements Modelo {
 		
 	}
 	
-	public enum PermissaoTipoEnum implements EnumMapped{
+	public enum PermissaoTipoEnum implements MappedEnum{
 		CONTROLE_ACESSO("permissao.controleAcesso"),
 		CONTROLE_TRIBUTARIO_IPTU("permissao.controleTributario.iptu"),
 		CONTROLE_TRIBUTARIO_ITBI("permissao.controleTributario.itbi"),

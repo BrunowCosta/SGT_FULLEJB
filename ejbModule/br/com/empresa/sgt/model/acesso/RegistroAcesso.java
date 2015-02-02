@@ -1,6 +1,7 @@
 package br.com.empresa.sgt.model.acesso;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +15,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import br.com.empresa.sgt.enumeration.EnumMapped;
+import br.com.empresa.sgt.enumeration.MappedEnum;
 import br.com.empresa.sgt.model.arq.Modelo;
 
 @Entity
@@ -46,7 +47,7 @@ public class RegistroAcesso implements Modelo {
 	private String dispositivo;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	private Calendar dataAcesso;
+	private Date dataAcesso;
 	
 	@Enumerated(EnumType.ORDINAL)
 	private RegistroAcessoTipoEnum tipo;
@@ -93,11 +94,11 @@ public class RegistroAcesso implements Modelo {
 		this.browser = browser;
 	}
 
-	public Calendar getDataAcesso() {
+	public Date getDataAcesso() {
 		return dataAcesso;
 	}
 
-	public void setDataAcesso(Calendar dataAcesso) {
+	public void setDataAcesso(Date dataAcesso) {
 		this.dataAcesso = dataAcesso;
 	}
 
@@ -133,7 +134,7 @@ public class RegistroAcesso implements Modelo {
 		this.dispositivo = dispositivo;
 	}
 	
-	public enum RegistroAcessoTipoEnum implements EnumMapped{
+	public enum RegistroAcessoTipoEnum implements MappedEnum{
 		negado("registroAcesso.tipo.negado"),
 		sucesso("registroAcesso.tipo.sucesso"),
 		bloqueado("registroAcesso.tipo.bloqueado");

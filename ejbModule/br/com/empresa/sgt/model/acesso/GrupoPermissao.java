@@ -15,7 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import br.com.empresa.sgt.enumeration.EnumMapped;
+import br.com.empresa.sgt.enumeration.RowColorEnum;
 import br.com.empresa.sgt.model.arq.Modelo;
 
 @Entity
@@ -41,9 +41,6 @@ public class GrupoPermissao implements Modelo {
 	
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<Permissao> permissoes;
-	
-	@OneToMany
-	private List<Usuario> usuarios;
 	
 	public GrupoPermissao() {}
 	
@@ -79,30 +76,36 @@ public class GrupoPermissao implements Modelo {
 		this.permissoes = permissoes;
 	}
 
-	public List<Usuario> getUsuarios() {
-		return usuarios;
-	}
-
-	public void setUsuarios(List<Usuario> usuarios) {
-		this.usuarios = usuarios;
-	}
-	
-	public enum GrupoPermissaoStatusEnum implements EnumMapped{
-		ATIVO("grupoPermissao.status.ativo"),
-		INATIVO("grupoPermissao.status.inativo");
+	public enum GrupoPermissaoStatusEnum implements RowColorEnum {
+		ATIVO("grupoPermissao.status.ativo", "azul"),
+		INATIVO("grupoPermissao.status.inativo", "cinza");
 		
 		private String descricao;
+		private String rowColor;
 		
-		GrupoPermissaoStatusEnum(String descricao) {
+		GrupoPermissaoStatusEnum(String descricao, String rowColor) {
 			this.descricao = descricao;
+			this.rowColor = rowColor;
 		}
 
+		@Override
 		public String getDescricao() {
 			return descricao;
 		}
 
+		@Override
 		public void setDescricao(String descricao) {
 			this.descricao = descricao;
+		}
+		
+		@Override
+		public String getRowColor() {
+			return rowColor;
+		}
+
+		@Override
+		public void setRowColor(String rowColor) {
+			this.rowColor = rowColor;
 		}
 		
 	}
