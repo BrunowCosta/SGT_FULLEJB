@@ -1,6 +1,5 @@
 package br.com.empresa.sgt.model.acesso;
 
-import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Column;

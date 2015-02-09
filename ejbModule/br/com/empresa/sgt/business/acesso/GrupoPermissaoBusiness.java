@@ -1,11 +1,13 @@
 package br.com.empresa.sgt.business.acesso;
 
+import java.io.Serializable;
 import java.util.List;
 
-import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 
+import br.com.empresa.sgt.business.arq.CrudBusinessAdapter;
 import br.com.empresa.sgt.business.remote.GrupoPermissaoBusinessRemote;
 import br.com.empresa.sgt.exception.BusinessException;
 import br.com.empresa.sgt.model.acesso.GrupoPermissao;
@@ -14,13 +16,18 @@ import br.com.empresa.sgt.persistence.dao.GrupoPermissaoDAO;
 
 @Stateless
 @Remote(GrupoPermissaoBusinessRemote.class)
-public class GrupoPermissaoBusiness extends CrudBusinessAdapter<GrupoPermissao> implements GrupoPermissaoBusinessRemote {
+public class GrupoPermissaoBusiness extends CrudBusinessAdapter<GrupoPermissao> implements Serializable, GrupoPermissaoBusinessRemote {
 	
-	@EJB GrupoPermissaoDAO grupoPermissaoDAO;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4093925067521757188L;
+	
+	@Inject GrupoPermissaoDAO grupoPermissaoDAO;
 
 	@Override
-	public void cadastrar(GrupoPermissao grupo, Usuario usuario) throws BusinessException {
-		grupoPermissaoDAO.persist(grupo);
+	public GrupoPermissao cadastrar(GrupoPermissao grupo, Usuario usuario) throws BusinessException {
+		return grupoPermissaoDAO.persist(grupo);
 	}
 	
 	@Override

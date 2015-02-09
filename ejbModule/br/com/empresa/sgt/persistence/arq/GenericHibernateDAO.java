@@ -27,8 +27,6 @@ import br.com.empresa.sgt.model.arq.Modelo;
 // Adapter Pattern
 public abstract class GenericHibernateDAO<T extends Modelo, ID extends Serializable> implements GenericDao <T, ID> {
 
-//	private EntityManagerFactory managerFactory = Persistence.createEntityManagerFactory("SGTDB");
-	
 	@PersistenceContext(unitName="SGT")
 	private EntityManager manager;
 	
@@ -40,9 +38,10 @@ public abstract class GenericHibernateDAO<T extends Modelo, ID extends Serializa
 	}
 
 	@Override
-	public void persist(T obj) throws BusinessException {
+	public T persist(T obj) throws BusinessException {
 		getManager().persist(obj);
 		getManager().flush();
+		return obj;
 	}
 
 	@Override
@@ -155,7 +154,6 @@ public abstract class GenericHibernateDAO<T extends Modelo, ID extends Serializa
 	@Override
 	@SuppressWarnings("unchecked")
 	public T findOneByField(String field, String condition, Object value) {
-		
 		// JPQL HQL
 		Query query = this.getManager().createQuery("select c from " 
 					+ this.getEntityClass().getSimpleName() 

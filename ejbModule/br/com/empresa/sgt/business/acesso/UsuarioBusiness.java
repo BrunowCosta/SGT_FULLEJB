@@ -6,6 +6,7 @@ import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 
+import br.com.empresa.sgt.business.arq.CrudBusinessAdapter;
 import br.com.empresa.sgt.business.remote.UsuarioBusinessRemote;
 import br.com.empresa.sgt.exception.BusinessException;
 import br.com.empresa.sgt.model.acesso.Usuario;
@@ -18,8 +19,8 @@ public class UsuarioBusiness extends CrudBusinessAdapter<Usuario> implements Usu
 	@EJB UsuarioDAO usuarioDAO;
 
 	@Override
-	public void cadastrar(Usuario modelo, Usuario usuario) throws BusinessException {
-		usuarioDAO.persist(modelo);
+	public Usuario cadastrar(Usuario modelo, Usuario usuario) throws BusinessException {
+		return usuarioDAO.persist(modelo);
 	}
 	
 	@Override

@@ -2,13 +2,16 @@ package br.com.empresa.sgt.business.remote;
 
 import java.util.List;
 
+import javax.ejb.Remote;
+
 import br.com.empresa.sgt.exception.BusinessException;
 import br.com.empresa.sgt.model.acesso.Usuario;
 import br.com.empresa.sgt.model.arq.Modelo;
 
+@Remote
 public interface CrudBusiness<T extends Modelo> {
 	
-	public void cadastrar(T obj, Usuario usuario) throws BusinessException;
+	public T cadastrar(T obj, Usuario usuario) throws BusinessException;
 	
 	public void alterar(T obj, Usuario usuario) throws BusinessException;
 	

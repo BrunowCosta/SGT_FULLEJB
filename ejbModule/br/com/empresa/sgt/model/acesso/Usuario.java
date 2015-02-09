@@ -3,6 +3,7 @@ package br.com.empresa.sgt.model.acesso;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -82,25 +83,8 @@ public class Usuario implements Modelo {
 	private String urlFotoPerfil;
 	
 	// Endereço
-	@Column(nullable=false, length=8)
-	private String cep;
-	
-	@Column(nullable=false)
-	private String rua;
-	
-	@Column(nullable=false)
-	private String bairro;
-	
-	private String complemento;
-	
-	@Column(nullable=false)
-	private String cidade;
-	
-	@Column(nullable=false)
-	private String estado;
-	
-	@Column(nullable=false)
-	private String pais;
+	@Embedded
+	private Endereco endereco;
 	
 	@ManyToOne
 	private GrupoPermissao grupoPermissao;
@@ -109,7 +93,9 @@ public class Usuario implements Modelo {
 	@Column(nullable=false)
 	private String saltAgent;
 	
-	public Usuario() {}
+	public Usuario() {
+		this.endereco = new Endereco();
+	}
 	
 	public Integer getId() {
 		return id;
@@ -239,60 +225,12 @@ public class Usuario implements Modelo {
 		this.urlFotoPerfil = urlFotoPerfil;
 	}
 
-	public String getCep() {
-		return cep;
+	public Endereco getEndereco() {
+		return endereco;
 	}
 
-	public void setCep(String cep) {
-		this.cep = cep;
-	}
-
-	public String getRua() {
-		return rua;
-	}
-
-	public void setRua(String rua) {
-		this.rua = rua;
-	}
-
-	public String getBairro() {
-		return bairro;
-	}
-
-	public void setBairro(String bairro) {
-		this.bairro = bairro;
-	}
-
-	public String getComplemento() {
-		return complemento;
-	}
-
-	public void setComplemento(String complemento) {
-		this.complemento = complemento;
-	}
-
-	public String getCidade() {
-		return cidade;
-	}
-
-	public void setCidade(String cidade) {
-		this.cidade = cidade;
-	}
-
-	public String getEstado() {
-		return estado;
-	}
-
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
-
-	public String getPais() {
-		return pais;
-	}
-
-	public void setPais(String pais) {
-		this.pais = pais;
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
 
 	public GrupoPermissao getGrupoPermissao() {

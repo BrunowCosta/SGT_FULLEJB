@@ -1,10 +1,11 @@
 package br.com.empresa.sgt.business.acesso;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
-import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 
 import org.owasp.esapi.errors.EncryptionException;
 import org.owasp.esapi.reference.crypto.JavaEncryptor;
@@ -23,10 +24,15 @@ import br.com.empresa.sgt.persistence.dao.UsuarioDAO;
 
 @Stateless
 @Remote(AcessoBusinessRemote.class)
-public class AcessoBusiness implements AcessoBusinessRemote {
+public class AcessoBusiness implements Serializable, AcessoBusinessRemote {
 	
-	@EJB UsuarioDAO usuarioDAO;
-	@EJB RegistroAcessoDAO registroAcessoDAO;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7695995351802910895L;
+	
+	@Inject UsuarioDAO usuarioDAO;
+	@Inject RegistroAcessoDAO registroAcessoDAO;
 	
 	@Override
 	public Usuario autenticar(String login, String senha, RegistroAcesso registro) throws BusinessException, EncryptionException {

@@ -9,7 +9,7 @@ public interface GenericDao<T, ID> {
 	//TODO Verificar se precisa disso aqui
 	public static final String CONDICAO_IGUAL = "=";
 	
-	public void persist(T obj) throws BusinessException;
+	public T persist(T obj) throws BusinessException;
 	
 	public void remove(T obj) throws BusinessException ;
 	
